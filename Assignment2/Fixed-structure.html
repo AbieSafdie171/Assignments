@@ -67,6 +67,8 @@
            });
 
             // 2.3 Add any other variables (such as popups and markers) to the first map
+
+            // Washington DC
             var popup = new mapboxgl.Popup()
                       .setText('This is where I spent my high school years!');
 
@@ -75,6 +77,8 @@
                     .setPopup(popup) //add the popup named "popup" to this marker 
                     .addTo(map); // add it to the map with the ID "map"
 
+
+            // Santa Barbara
             var popup2 = new mapboxgl.Popup()
                       .setText('This is where I plan to move to after graduation!');
 
@@ -83,6 +87,8 @@
                     .setPopup(popup2) //add the popup named "popup" to this marker 
                     .addTo(map); // add it to the map with the ID "map"
 
+
+            // Eugene Oregon
             var popup3 = new mapboxgl.Popup()
                       .setText('This is where I went to college!');
 
@@ -103,7 +109,7 @@
              map.touchZoomRotate.disableRotation();
 
             // 2.5.3 Then initialize the 2nd map
-                     // Then initialize the 2nd map
+                
              var map2 = new mapboxgl.Map({
              container: 'map2', // id of a div on your page, where the map will be inserted
              style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
