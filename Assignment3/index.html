@@ -72,7 +72,7 @@
              padding-left: 10px;
         }
 
-            
+        /* Renter and Owner colors */
         .renter {
              color:#cc003a;
         }
@@ -92,6 +92,7 @@
  </head>
  <body>
 
+   <!-- This is the map div :) -->
    <div id='map'></div>
 
    <!-- This is the map description panel :) -->
@@ -120,7 +121,10 @@
    <script>
 
 
+    // Our mapbox token
     mapboxgl.accessToken = 'pk.eyJ1IjoiYXNhZmRpZSIsImEiOiJjbTh6MXZkb3AwNHdsMmpwbjl0cWE2c3N2In0.CJCiuaLVqFTE0ZjEhLzWfw';
+
+    // initialize the map
     var map = new mapboxgl.Map({
          container: 'map', // container id
          style: 'mapbox://styles/asafdie/cm9m38pli001501ssfknl714f',
@@ -130,17 +134,16 @@
 
 
     // Add zoom and rotation controls to the map.
-    // map.addControl(new mapboxgl.NavigationControl());
-
-    // Create a new navigation control
     const nav = new mapboxgl.NavigationControl();
 
-    // Add the navigation control to the map at the top-left corner
+    // moves the navigation control to the top-left corner
     map.addControl(nav, 'top-left');
 
 
+    // Sets the state of the panel to true (open)
     var state = { panelOpen: true };
 
+    // defines a function that closes or opens the panel based on its current state
     function panelSelect(e){
         if(state.panelOpen){
           document.getElementById('descriptionPanel').style.height = '26px';
@@ -152,10 +155,6 @@
           state.panelOpen = true;
         }
     }
-    
-
-
-
    </script>
 
  </body>
