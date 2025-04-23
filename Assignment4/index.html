@@ -42,7 +42,8 @@
         .Title {
             position: absolute;
             top: 20px; /* Position from the top */
-            left: 20px; /* Position from the left */
+            left: 50%; /* Position from the left */
+            transform: translateX(-50%); /* Offset the element by half its width to center it */
             z-index: 2;
             width: 500px; 
             height: auto;
@@ -86,17 +87,39 @@
             height: 15px; 
             margin-right: 1px;
         }
+        .map-label {
+            position: absolute;
+            top: 80px;
+            z-index: 10;
+            background: rgba(80, 80, 80, .75);
+            border-radius: 7px;
+            color: #f7879a;
+            padding: 15px 20px; 
+            font-size: 20px;
+        }
+
+        .owners-label {
+            left: calc(20% - 50px);
+        }
+
+        .renters-label {
+            right: calc(20% - 50px);
+        }
       </style>
  </head>
  <body>
+
     <div id="comparison-container">
             <div id='owners' class='map'></div>  <!-- div for owners map div -->
             <div id='renters' class='map'></div> <!--  div for renters map div -->
     </div>
 
+    <div class="map-label owners-label">Owners</div>
+    <div class="map-label renters-label">Renters</div>
+
     <div class="Title">
         <strong class="main-title">Map of owners vs renters in Portland Metro</strong><br>
-        <p class="subheading">Swipe between maps to see what percent that is "owned" vs what percent is "rented"</p>
+        <p class="subheading">Slide between maps to see what percent that is "owned" vs what percent is "rented"</p>
     </div>
 
     <div class="LegendContainer">
@@ -147,9 +170,6 @@
          closeOnClick: false
 
         });
-
-        // A selector or reference to HTML element
-        var container = '#comparison-container';
 
         ownerMap.on('load', function() {
             // owner map layer data
@@ -248,9 +268,57 @@
 
         });
 
+        // A selector or reference to HTML element
+        var container = '#comparison-container';
+
         // sets up the swipe!
         var map = new mapboxgl.Compare(ownerMap, renterMap, container, {
         })
+
+
+        function logSliderPosition() {
+            const handle = document.querySelector('.compare-swiper-vertical');
+            const ownersLabel = document.querySelector('.owners-label');
+            const rentersLabel = document.querySelector('.renters-label');
+
+            if (handle && ownersLabel && rentersLabel) {
+                const handleRect = handle.getBoundingClientRect();
+                const ownersRect = ownersLabel.getBoundingClientRect();
+                const rentersRect = rentersLabel.getBoundingClientRect();
+
+                // // Check if slider is overlapping owners label
+                // const ownersOverlapped = !(
+                //     handleRect.right < ownersRect.left ||
+                // );
+
+                // // Check if slider is overlapping renters label
+                // const rentersOverlapped = !(
+                //     handleRect.right < rentersRect.left ||
+                //     handleRect.left > rentersRect.right ||
+                //     handleRect.bottom < rentersRect.top ||
+                //     handleRect.top > rentersRect.bottom
+                // );
+
+                if (ownersRect.right < handleRect.right){
+                    ownersLabel.style.opacity = 1;
+                } else {
+                    ownersLabel.style.opacity = 0;
+                }
+
+                if (rentersRect.left < handleRect.left){
+                    rentersLabel.style.opacity = 0;
+                } else {
+                    rentersLabel.style.opacity = 1;
+                }
+
+
+            }
+
+            requestAnimationFrame(logSliderPosition);
+        }
+
+        requestAnimationFrame(logSliderPosition);
+
 
      </script>
 
