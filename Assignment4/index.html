@@ -20,21 +20,109 @@
                user-select: none;
           }
          
-      .map {
+        .map {
           position: absolute;
           top: 0;
           bottom: 0;
           width: 100%;
-          }
+        }
+
+        /*  style for items with the class "LegendContainer" */
+        .LegendContainer {
+             position: absolute;
+             bottom: 20px;
+             left: 20px;
+             z-index: 2;
+             width: 700px;
+             height: 40px;
+             background: rgba(80, 80, 80, .75);
+             border-radius: 7px;
+        }
+
+        .Title {
+            position: absolute;
+            top: 20px; /* Position from the top */
+            left: 20px; /* Position from the left */
+            z-index: 2;
+            width: 500px; 
+            height: auto;
+            background: rgba(80, 80, 80, .75);
+            border-radius: 7px;
+            color: #f7879a;
+            padding: 10px; 
+        }
+
+        /* Style for the main title */
+        .main-title {
+            font-size: 24px; 
+            font-weight: bold; 
+            margin: 0; 
+        }
+
+        /* Style for the subheading */
+        .subheading {
+            font-size: 16px; 
+            margin: 5px 0 0 0;
+        }
+
+        /* style for items with the class "legendItem" */
+        .legendItem {
+           margin: 0px;
+           padding-left: 10px;
+           display:inline-block;
+           margin:auto;
+           transform: translate(50%, 50%);
+        }
+            
+
+        /* style for items with the class "layerDescription" */
+        .layerDescription {
+             color: white;
+        }
+
+        .color-box {
+            display: inline-block;
+            width: 15px; 
+            height: 15px; 
+            margin-right: 1px;
+        }
       </style>
  </head>
  <body>
-     <div id="comparison-container">
+    <div id="comparison-container">
             <div id='owners' class='map'></div>  <!-- div for owners map div -->
             <div id='renters' class='map'></div> <!--  div for renters map div -->
-        </div>
+    </div>
 
-     <script>
+    <div class="Title">
+        <strong class="main-title">Map of owners vs renters in Portland Metro</strong><br>
+        <p class="subheading">Swipe between maps to see what percent that is "owned" vs what percent is "rented"</p>
+    </div>
+
+    <div class="LegendContainer">
+        <div class="legendItem">
+            <span class="color-box" style="background-color: hsl(225, 100%, 97%);"></span>
+            <span class="layerDescription">0% - 17%</span>
+        </div>
+        <div class="legendItem">
+            <span class="color-box" style="background-color: hsl(203, 47%, 82%);"></span>
+            <span class="layerDescription">17% - 22%</span>
+        </div>
+        <div class="legendItem">
+            <span class="color-box" style="background-color: hsl(202, 57%, 63%);"></span>
+            <span class="layerDescription">22% - 27%</span>
+        </div>
+        <div class="legendItem">
+            <span class="color-box" style="background-color: #3182bd;"></span>
+            <span class="layerDescription">27% - 32%</span>
+        </div>
+        <div class="legendItem">
+            <span class="color-box" style="background-color: hsl(210, 90%, 32%);"></span>
+            <span class="layerDescription">32% and above</span>
+        </div>
+    </div>
+
+    <script>
        //add your Mapbox access token and map variable here!
         mapboxgl.accessToken = 'pk.eyJ1IjoiYXNhZmRpZSIsImEiOiJjbTh6MXZkb3AwNHdsMmpwbjl0cWE2c3N2In0.CJCiuaLVqFTE0ZjEhLzWfw';
 
