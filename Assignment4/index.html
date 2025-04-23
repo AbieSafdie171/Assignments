@@ -114,14 +114,17 @@
             <div id='renters' class='map'></div> <!--  div for renters map div -->
     </div>
 
+    <!-- map labels -->
     <div class="map-label owners-label">Owners</div>
     <div class="map-label renters-label">Renters</div>
 
+    <!-- title label -->
     <div class="Title">
         <strong class="main-title">Map of owners vs renters in Portland Metro</strong><br>
         <p class="subheading">Slide between maps to see what percent that is "owned" vs what percent is "rented"</p>
     </div>
 
+    <!-- legend container and labels -->
     <div class="LegendContainer">
         <div class="legendItem">
             <span class="color-box" style="background-color: hsl(225, 100%, 97%);"></span>
@@ -165,12 +168,14 @@
             zoom: 10 
         });
 
+        // our popups
         var popup = new mapboxgl.Popup({
          closeButton: false,
          closeOnClick: false
 
         });
 
+        // load the owner map and its data and color bins
         ownerMap.on('load', function() {
             // owner map layer data
             ownerMap.addLayer({
@@ -199,7 +204,7 @@
                 }       
 
             });
-
+            // on mousemove update for each location for owners
             ownerMap.on('mousemove', 'Owner Data', function (e) {
         
                 // Change the cursor style as a UI indicator.
@@ -214,7 +219,7 @@
                     .setHTML("Owners: " + description + "%")
                     .addTo(ownerMap);
             });
-
+            // reset when the mouse leaves
             ownerMap.on('mouseleave', 'Owner Data', function () {
                  ownerMap.getCanvas().style.cursor = '';
                  popup.remove();
@@ -222,6 +227,7 @@
 
         });
 
+        // on mousemove update for each location for renters
         renterMap.on('load', function() {
             // renter map layer data
             renterMap.addLayer({
@@ -246,6 +252,8 @@
                     "hsl(210, 90%, 32%)"],
                    "fill-opacity": 0.7  }
             });
+
+            // on mousemove update for each location for owners
             renterMap.on('mousemove', 'Renter Data', function (e) {
         
                 // Change the cursor style as a UI indicator.
@@ -261,6 +269,7 @@
                     .addTo(renterMap);
             });
 
+            // reset when the mouse leaves
             renterMap.on('mouseleave', 'Renter Data', function () {
                 renterMap.getCanvas().style.cursor = '';
                 popup.remove();
@@ -276,29 +285,20 @@
         })
 
 
+
+        // Function that gets the position of the slider and updates the map labels to disappear if one map overlaps the other
         function logSliderPosition() {
             const handle = document.querySelector('.compare-swiper-vertical');
             const ownersLabel = document.querySelector('.owners-label');
             const rentersLabel = document.querySelector('.renters-label');
 
             if (handle && ownersLabel && rentersLabel) {
+                // get locatins
                 const handleRect = handle.getBoundingClientRect();
                 const ownersRect = ownersLabel.getBoundingClientRect();
                 const rentersRect = rentersLabel.getBoundingClientRect();
 
-                // // Check if slider is overlapping owners label
-                // const ownersOverlapped = !(
-                //     handleRect.right < ownersRect.left ||
-                // );
-
-                // // Check if slider is overlapping renters label
-                // const rentersOverlapped = !(
-                //     handleRect.right < rentersRect.left ||
-                //     handleRect.left > rentersRect.right ||
-                //     handleRect.bottom < rentersRect.top ||
-                //     handleRect.top > rentersRect.bottom
-                // );
-
+                // check if overlapping with the slider and disappear/reappear label
                 if (ownersRect.right < handleRect.right){
                     ownersLabel.style.opacity = 1;
                 } else {
