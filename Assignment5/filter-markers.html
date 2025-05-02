@@ -63,23 +63,217 @@
 </style>
 <div id="map"></div>
 <!-- add filter group nav here  ( II.6) -->
+<nav id="filter-group" class="filter-group"></nav>
 
 <script>
 	mapboxgl.accessToken = 'pk.eyJ1Ijoiam9tZXJzb24iLCJhIjoiY2o1bXE2bHlyMnJhZDMzbnpyMnhlODdpcSJ9.QJMJ_cTFCY050aZfSn1umQ';
     
     // ADD THE DATA HERE (II.2)
+    var places = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "icon": "theatre",
+            "description": "This is a place for entertainment!"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -77.038659,
+              38.931567
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "icon": "theatre",
+            "description": "This is a place for entertainment!"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -77.003168,
+              38.894651
+            ]
+          },
+          "id": 1
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "icon": "bar",
+            "description": "This is a place for drinks!"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -77.090372,
+              38.881189
+            ]
+          },
+          "id": 2
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "icon": "bicycle",
+            "description": "This is a place for physical activity!"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -77.052477,
+              38.943951
+            ]
+          },
+          "id": 3
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "icon": "music",
+            "description": "This is a place for music!"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -77.031706,
+              38.914581
+            ]
+          },
+          "id": 4
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "icon": "music",
+            "description": "This is a place for music!"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -77.020945,
+              38.878241
+            ]
+          },
+          "id": 5
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "icon": "music",
+            "description": "This is a place for music!"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -77.007481,
+              38.876516
+            ]
+          },
+          "id": 6
+        }
+      ]
+    };
     
     var filterGroup = document.getElementById('filter-group');
+    // Set bounds to Washington, DC
+    var bounds = [
+            [-77.26383, 38.73854], // Southwest coordinates
+            [-76.83569, 39.00114] // Northeast coordinates 
+        ];
+
     var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/light-v10',
         center: [-77.04, 38.907],
         zoom: 11.15,
+        minZoom: 10,
+        maxBounds: bounds
     });
 
     // Map's On 'load' function.
     map.on('load', function () {
          // insert code in the function here  (II.3)
+         // Add a GeoJSON source containing place coordinates and information.
+        map.addSource('places', {
+             'type': 'geojson',
+             'data': places
+         });
+
+
+              // add a new layer using the points
+        places.features.forEach(function (feature) {
+             var symbol = feature.properties['icon']; // get the value from the 'icon' field in the data
+             var layerID = 'poi-' + symbol;
+
+             // Add a layer for this symbol type if there is not a layer with this name already.
+             if (!map.getLayer(layerID)) {
+                 map.addLayer({
+                     'id': layerID,
+                     'type': 'symbol',
+                     'source': 'places',
+                     'layout': {
+                     // These icons are a part of the Mapbox Light style.
+                     'icon-image': symbol + '-15',
+                     'icon-allow-overlap': true
+                     },
+                     // filter the dataset for all features that have the `icon` value that is the same and the current `symbol` value. 
+                     'filter': ['==', 'icon', symbol] 
+                    });
+
+                // Add checkbox and label elements for the layer.
+                var input = document.createElement('input');
+                input.type = 'checkbox';
+                input.id = layerID;
+                input.checked = true;
+                filterGroup.appendChild(input);
+
+                var label = document.createElement('label');
+                label.setAttribute('for', layerID);
+                label.textContent = symbol;
+                filterGroup.appendChild(label);
+
+                // When the checkbox changes, update the visibility of the layer.
+                input.addEventListener('change', function (e) {
+                    map.setLayoutProperty(
+                        layerID,
+                        'visibility',
+                        e.target.checked ? 'visible' : 'none'
+                    );
+                });
+
+                // Add popup code here (III.2)
+                // When a click event occurs on a feature in the places layer, 
+                // open a popup at the location of the feature, with description HTML from its properties.
+                map.on('click', layerID, function (e) {
+                    var coordinates = e.features[0].geometry.coordinates.slice();
+                    var description = e.features[0].properties.description + "<br>Type: " + e.features[0].properties.icon;
+
+
+                     new mapboxgl.Popup()
+                     .setLngLat(coordinates)
+                     .setHTML(description) // the string in the description var is added to the popup here
+                     .addTo(map);
+                });
+                // Add mouseover code here (V.1)
+                // Change the cursor to a pointer when the mouse is over the places layer.
+                map.on('mouseenter', layerID, function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+
+                // Change it back to a pointer when it leaves.
+                map.on('mouseleave', layerID, function () {
+                    map.getCanvas().style.cursor = '';
+                });
+
+             }
+         });
+
+
 
     });
 </script>

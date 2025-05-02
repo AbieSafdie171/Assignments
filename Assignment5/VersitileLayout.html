@@ -6,7 +6,7 @@ From https://medium.com/nyc-planning-digital/a-versatile-layout-for-full-screen-
 
 <head>
     <meta charset="utf-8">
-    <title>Hello World</title>
+    <title>Washington DC Map</title>
 
     
     <!-- JavaScript Libraries-->
@@ -25,7 +25,7 @@ From https://medium.com/nyc-planning-digital/a-versatile-layout-for-full-screen-
 <body>
 
     <div class="site-header">
-        <strong class="site-title">My Mapping Application</strong>
+        <strong class="site-title">Points of Interest in Washington DC</strong>
     </div>
 
     <div class="site-main grid-x has-content-open">
@@ -40,7 +40,8 @@ From https://medium.com/nyc-planning-digital/a-versatile-layout-for-full-screen-
         </div>
         
         <div class="map-container cell medium-auto large-order-2">
-             <!--  ADD iframe here, inside the versitle layout's map container (VI.2.)   -->
+            <!--  ADD iframe here, inside the versitle layout's map container (VI.2.)   -->
+            <iframe src="filter-markers.html" title="Map"></iframe> 
 
         </div>
 
@@ -48,10 +49,7 @@ From https://medium.com/nyc-planning-digital/a-versatile-layout-for-full-screen-
         <div class="sidebar cell medium-3 large-2 large-order-1 show-for-medium">
             <h5>Sidebar</h5>
             <ul>
-                <li><a class="content-link" href="#">Open Content</a></li>
-                <li>Item 2</li>
-                <li>Item 3</li>
-                <li>Item 4</li>
+                <li><a class="content-link" href="#">About this Map of Washington</a></li>
             </ul>
 
             <hr />
@@ -64,10 +62,12 @@ From https://medium.com/nyc-planning-digital/a-versatile-layout-for-full-screen-
         
         <!--  Content panel  -->
         <div class="content cell large-5 large-order-3">
-            <h2>Content</h2>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis consequuntur at, illum error fuga minima aliquam amet perspiciatis laborum ducimus laudantium corporis corrupti iusto!</p>
-            <p>Non cum voluptates nostrum veritatis. Ullam! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis consequuntur at, illum error fuga minima aliquam amet perspiciatis laborum ducimus laudantium corporis corrupti iusto! Non cum voluptates nostrum veritatis. Ullam!</p>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis consequuntur at, illum error fuga minima aliquam amet perspiciatis laborum ducimus laudantium corporis corrupti iusto!</p>
+            <h2>About this Map</h2>
+            <p>Welcome to this map of Washington DC! </p>
+            <p>There are various points of interest plotted on this map. They exist within four different categories: Theater, Bar, Bicycle, and Music. Note, these points are clickable! </p>
+            <p>You may toggle points on and off via the blue checkbox in the top-right-hand-corner of the map.</p>
+
+            <p>Happy exploring!</p>
         </div>
 
     </div>
