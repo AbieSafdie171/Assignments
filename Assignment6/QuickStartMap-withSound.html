@@ -21,7 +21,13 @@
     <style>
         /* CSS code between the <style> tags */
         body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
+        #map { position:absolute; 
+            top:0; 
+            bottom:0; 
+            width:100%; 
+            display: none;
+        
+        }
         
         /* Overrides the pop-up width slightly bigger min-width than the default Mapbox CSS*/
          .mapboxgl-popup {
@@ -36,7 +42,7 @@
             display: inline-block; /* displays over the map */
             position: relative; /* displays over the map */
             margin: 0px auto; 
-            width: 30%;  /* width of parent div */
+            width: 24%;  /* width of parent div */
             padding: 10px;
             border-style: solid;
             border-color: oldlace;
@@ -65,18 +71,35 @@
 
   <body>
       <!--  The map div -->
-      <div id='map'></div>
+    <div id='map'></div>
       
        <!--  Insert the button elements here  -->
-       <button class='fly' id='PortlandButton'>Jump to Portland</button>
-       <button class='fly' id='LondonButton'>Jump to London</button>
-       <button class='fly' id='YellowstoneButton'>Jump to Yellowstone</button> 
+    <div id="intro">
+      <p id="introMessage" style="text-align: center; font-family: 'Kranky', serif; font-size: 1.2em; color: darkred;">
+        Click one of the buttons below to jump to your first location!
+      </p>
+
+      <button class='fly' id='PortlandButton' title="Jumps to an overview of metropolitan Portland, Oregon, USA!">Jump to Portland</button>
+      <button class='fly' id='LondonButton' title="Jumps to an overview of London, England with the River Thames in view.">Jump to London</button>
+      <button class='fly' id='YellowstoneButton' title="Jumps to Yellowstone National Park in Wyoming, USA!">Jump to Yellowstone</button>
+      <button class='fly' id='RandomButton' title="Jumps to a random location!">Jump to Random</button>
+    </div>
+
 
 
     <script>
         // Insert the JavaScript within the <script> tags, within the body   
         // Start with the Mapbox access token
         mapboxgl.accessToken = 'pk.eyJ1IjoiYXNhZmRpZSIsImEiOiJjbTh6MXZkb3AwNHdsMmpwbjl0cWE2c3N2In0.CJCiuaLVqFTE0ZjEhLzWfw';
+
+        function showMap() {
+            document.getElementById('map').style.display = 'block';
+            document.getElementById('introMessage').style.display = 'none';
+            setTimeout(() => {
+                map.resize();
+            }, 100); // reload the map after 100 ms bc for some reason it was not taking up the whole page
+        }
+
 
         // Initialize the map
         var map = new mapboxgl.Map({
@@ -145,25 +168,38 @@
         /***  LISTENERS  ***/
             //listeners go here
         document.getElementById('LondonButton').addEventListener('click', function () {
-                map.jumpTo({
-                    center: [-0.1534307, 51.501223], 
-                    zoom: 11
-                });
+            showMap();
+            map.jumpTo({
+                center: [-0.1534307, 51.501223], 
+                zoom: 11
+            });
         });
                 
         // Add a 'Listener' to the button element with the ID 'PortlandButton'.
         document.getElementById('PortlandButton').addEventListener('click', function () {
-                map.jumpTo({
-                    center:[-122.6788,45.5212], 
-                    zoom: 9
-                });
+            showMap();
+            map.jumpTo({
+                center:[-122.6788,45.5212], 
+                zoom: 9
+            });
         });
 
         document.getElementById('YellowstoneButton').addEventListener('click', function () {
-                map.jumpTo({
-                    center:[-110.74524187568,44.706216445069], 
-                    zoom: 9
-                });
+            showMap();
+            map.jumpTo({
+                center:[-110.74524187568,44.706216445069], 
+                zoom: 9
+            });
+        });
+        document.getElementById('RandomButton').addEventListener('click', function () {
+            showMap();
+            const randomLng = (Math.random() * 360) - 180;
+            const randomLat = (Math.random() * 180) - 90;
+
+            map.jumpTo({
+                center:[randomLng,randomLat], 
+                zoom: 4
+            });
         });
 
         /***  END LISTENERS  ***/
